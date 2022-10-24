@@ -5,7 +5,7 @@ import "io"
 type Header struct {
 	//服务名和方法名
 	ServiceMethod string
-	seq           uint64
+	Seq           uint64
 	Error         string
 }
 

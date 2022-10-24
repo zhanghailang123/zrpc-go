@@ -17,7 +17,7 @@ type GobCodec struct {
 func NewGobCodec(conn io.ReadWriteCloser) Codec {
 	//生成一个默认的缓冲区
 	buf := bufio.NewWriter(conn)
-	return GobCodec{
+	return &GobCodec{
 		conn: conn,
 		buf:  buf,
 		dec:  gob.NewDecoder(conn),
@@ -25,19 +25,19 @@ func NewGobCodec(conn io.ReadWriteCloser) Codec {
 	}
 }
 
-func (g GobCodec) Close() error {
+func (g *GobCodec) Close() error {
 	return g.conn.Close()
 }
 
-func (g GobCodec) ReadHeader(header *Header) error {
+func (g *GobCodec) ReadHeader(header *Header) error {
 	return g.dec.Decode(header)
 }
 
-func (g GobCodec) ReadBody(i interface{}) error {
+func (g *GobCodec) ReadBody(i interface{}) error {
 	return g.dec.Decode(i)
 }
 
-func (g GobCodec) Write(header *Header, body interface{}) (err error) {
+func (g *GobCodec) Write(header *Header, body interface{}) (err error) {
 	defer func() {
 		_ = g.buf.Flush()
 		if err != nil {
