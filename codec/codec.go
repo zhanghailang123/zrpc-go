@@ -17,11 +17,19 @@ type Codec interface {
 }
 
 // 定义类型 在原类型上创造新的类型 函数式接口？？？
-type NodeCodecFunc func(closer io.ReadWriteCloser) Codec
+type NewCodecFunc func(closer io.ReadWriteCloser) Codec
 
 // 为string定义一个别名 Type
 type Type string
 
 const (
-	GobType Type = "application/gob"
+	GobType  Type = "application/gob"
+	JsonType Type = "application/json"
 )
+
+var NewCodecFuncMap map[Type]NewCodecFunc
+
+func init() {
+	NewCodecFuncMap = make(map[Type]NewCodecFunc)
+	NewCodecFuncMap[GobType] = NewGobCodec
+}
