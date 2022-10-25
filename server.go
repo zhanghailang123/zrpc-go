@@ -122,7 +122,7 @@ func (server *Server) readRequest(cc codec.Codec) (*request, error) {
 	//TODO : review
 	req.argv = reflect.New(reflect.TypeOf(""))
 
-	if err = cc.ReadBody(req.replyv.Interface()); err != nil {
+	if err = cc.ReadBody(req.argv.Interface()); err != nil {
 		log.Println("rpc server: read argv err:", err)
 	}
 	return req, nil
