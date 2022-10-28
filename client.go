@@ -7,6 +7,7 @@ import (
 	"zrpc-go/codec"
 )
 
+//Call 调用一次RPC所需要的信息
 type Call struct {
 	Seq           uint64
 	ServiceMethod string
@@ -16,7 +17,7 @@ type Call struct {
 	Done          chan *Call
 }
 
-//当调用结束时 通知调用放
+//当调用结束时 通知调用方
 func (call *Call) done() {
 	call.Done <- call
 }
