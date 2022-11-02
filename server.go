@@ -131,9 +131,11 @@ func (server *Server) readRequest(cc codec.Codec) (*request, error) {
 func (server *Server) sendResponse(cc codec.Codec, h *codec.Header, body interface{}, sengding *sync.Mutex) {
 	sengding.Lock()
 	defer sengding.Unlock()
+	log.Println("rpc server2.0: success reps", body)
 	if err := cc.Write(h, body); err != nil {
 		log.Println("rpc server : write reponse error : ", err)
 	}
+	log.Println("rpc server: success reps", body)
 }
 
 func (server *Server) handleRequest(cc codec.Codec, req *request, sending *sync.Mutex, wg *sync.WaitGroup) {
