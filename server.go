@@ -12,7 +12,7 @@ import (
 	"zrpc-go/codec"
 )
 
-const MagicNumber = 0x3befc
+const MagicNumber = 0x3bef5c
 
 // Option 定义 协商的编码方式
 type Option struct {
