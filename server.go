@@ -8,6 +8,7 @@ import (
 	"net"
 	"reflect"
 	"sync"
+	"sync/atomic"
 	"zrpc-go/codec"
 )
 
@@ -143,4 +144,15 @@ func (server *Server) handleRequest(cc codec.Codec, req *request, sending *sync.
 	log.Println(req.h, req.argv.Elem())
 	req.replyv = reflect.ValueOf(fmt.Sprintf("zrpc resp %d", req.h.Seq))
 	server.sendResponse(cc, req.h, req.replyv.Interface(), sending)
+}
+
+type methodType struct {
+	method    reflect.Method
+	ArgType   reflect.Type
+	ReplyType reflect.Type
+	numCalls  uint64
+}
+
+func (m *methodType) NumberCalls() uint64 {
+	return atomic.LoadUint64(&m.numCalls)
 }
